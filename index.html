@@ -233,10 +233,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow:hid
 .filter-row::-webkit-scrollbar{display:none;}
 .chip{padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:var(--text-soft);white-space:nowrap;transition:all var(--ease);background:none;font-family:var(--sans);}
 .chip:hover,.chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
-.tbl-wrap{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;min-width:520px;}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;}
+/* Inside modals, tables should never force horizontal scroll */
+.modal-body .tbl-wrap{overflow-x:visible;}
+.modal-body table{min-width:0;}
 th{padding:10px 14px;text-align:left;font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--text-muted);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);white-space:nowrap;}
-td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(38,48,65,.5);color:var(--text-soft);vertical-align:middle;}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(38,48,65,.5);color:var(--text-soft);vertical-align:middle;word-break:break-word;}
 tr:last-child td{border-bottom:none;}
 tbody tr:hover td{background:rgba(255,255,255,.018);}
 .td-p{color:var(--text);font-weight:500;}
@@ -275,10 +278,10 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;place-items:start center;padding:20px;backdrop-filter:blur(4px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .modal-overlay.open{display:grid;animation:fadeIn .18s ease;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:860px;box-shadow:0 24px 80px rgba(0,0,0,.5);margin:auto;overflow:hidden;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:860px;box-shadow:0 24px 80px rgba(0,0,0,.5);margin:auto;}
 .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:2;border-radius:var(--r-lg) var(--r-lg) 0 0;gap:10px;}
 .modal-head > div:first-child{flex:1;min-width:0;}
-.modal-head > div:last-child{display:flex;gap:6px;align-items:center;flex-wrap:wrap;flex-shrink:0;}
+.modal-head > div:last-child{display:flex;gap:6px;align-items:center;flex-wrap:wrap;flex-shrink:0;max-width:60%;}
 .modal-title{font-family:var(--ui);font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
 .modal-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
 .close-btn{width:32px;height:32px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--text-muted);cursor:pointer;display:grid;place-items:center;transition:all var(--ease);flex-shrink:0;}
@@ -286,10 +289,11 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 .close-btn svg{width:14px;height:14px;}
 .modal-body{padding:18px 20px;overflow-x:hidden;}
 .modal-foot{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:12px 20px;border-top:1px solid var(--border);position:sticky;bottom:0;background:var(--surface);border-radius:0 0 var(--r-lg) var(--r-lg);flex-wrap:wrap;}
-@media(max-width:480px){
+@media(max-width:600px){
   .modal-overlay{padding:0;align-items:flex-end;}
-  .modal{border-radius:var(--r-lg) var(--r-lg) 0 0;min-height:60vh;max-height:95vh;overflow-y:auto;margin-bottom:0;}
-  .modal-head{border-radius:var(--r-lg) var(--r-lg) 0 0;}
+  .modal{border-radius:var(--r-lg) var(--r-lg) 0 0;min-height:60vh;max-height:96vh;overflow-y:auto;margin-bottom:0;}
+  .modal-head{border-radius:var(--r-lg) var(--r-lg) 0 0;flex-wrap:wrap;}
+  .modal-head > div:last-child{max-width:100%;margin-top:2px;}
   .modal-foot{border-radius:0;position:sticky;bottom:0;}
   .btn-sm{font-size:11px;padding:5px 9px;}
 }
@@ -342,6 +346,38 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 @media(min-width:500px){.ctrl-fields{grid-template-columns:repeat(2,1fr);}}
 .ctrl-field{font-size:12px;color:var(--text-soft);}
 .ctrl-field strong{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);margin-bottom:2px;}
+
+/* ROLE BADGE */
+.role-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:600;}
+.role-admin{background:rgba(245,158,11,.15);color:#fbbf24;}
+.role-usuario{background:rgba(59,126,246,.12);color:#60a5fa;}
+/* PROFESIONALES */
+.prof-avatar{width:38px;height:38px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,#10b981,#34d399);display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;}
+.prof-link{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.prof-link:hover{opacity:.8;}
+/* PROFESIONALES MULTISELECT */
+.prof-multi{border:1px solid var(--border);border-radius:8px;background:var(--bg);overflow:hidden;}
+.prof-multi-search{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--surface);}
+.prof-multi-search svg{width:14px;height:14px;color:var(--text-muted);flex-shrink:0;}
+.prof-multi-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--sans);font-size:13px;min-width:0;}
+.prof-multi-search input::placeholder{color:var(--text-muted);font-size:12px;}
+.prof-multi-list{max-height:168px;overflow-y:auto;}
+.prof-multi-item{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;transition:background var(--ease);border-bottom:1px solid rgba(38,48,65,.4);}
+.prof-multi-item:last-child{border-bottom:none;}
+.prof-multi-item:hover{background:var(--surface2);}
+.prof-multi-item.selected{background:var(--accent-soft);}
+.prof-multi-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;margin:0;}
+.prof-selected-tags{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;min-height:42px;background:var(--surface);border-top:1px solid var(--border);}
+.prof-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 8px 4px 10px;border-radius:20px;font-size:12px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2);max-width:220px;}
+.prof-tag-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.prof-tag button{background:none;border:none;cursor:pointer;color:inherit;display:grid;place-items:center;padding:0;opacity:.7;flex-shrink:0;}
+.prof-tag button:hover{opacity:1;}
+.prof-tag button svg{width:11px;height:11px;}
+/* ADMIN-ONLY visibility */
+.admin-only{display:none!important;}
+body.is-admin .admin-only{display:flex!important;}
+body.is-admin .admin-only-block{display:block!important;}
+.admin-only-block{display:none!important;}
 
 /* DELETE */
 .del-modal .modal{max-width:420px;}
@@ -623,6 +659,15 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
         <svg class="nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v11m0 0H5a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2h-4m-6 0h6"/></svg>
         Estudios
       </div>
+      <div class="nav-item" onclick="showView('profesionales',this)">
+        <svg class="nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="12" y1="11" x2="12" y2="13"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+        Profesionales
+      </div>
+      <div class="nav-lbl admin-only-block">Administración</div>
+      <div class="nav-item admin-only" onclick="showView('usuarios',this)">
+        <svg class="nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        Usuarios
+      </div>
     </nav>
     <div class="sb-footer">
       <button class="btn-theme" id="btn-theme" onclick="toggleTheme()">
@@ -722,6 +767,42 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
           <div class="tbl-wrap"><table><thead><tr><th>Paciente</th><th>Estudios</th><th>Observaciones</th><th>Ver</th></tr></thead><tbody id="est-tbody"></tbody></table></div>
         </div>
       </div>
+
+      <!-- PROFESIONALES -->
+      <div class="view" id="view-profesionales">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Profesionales Médicos</div><div class="card-meta" id="prof-count">—</div></div>
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm admin-only" onclick="openProfForm()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Nuevo
+              </button>
+            </div>
+          </div>
+          <div class="tbl-wrap"><table><thead><tr><th>Profesional</th><th>Especialidad</th><th>Matrícula</th><th>Teléfono</th><th>Pacientes</th><th>Acciones</th></tr></thead><tbody id="prof-tbody"><tr class="loading-row"><td colspan="6">Cargando…</td></tr></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- USUARIOS (admin only) -->
+      <div class="view admin-only-block" id="view-usuarios">
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Gestión de Usuarios</div><div class="card-meta" id="usr-count">—</div></div>
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm" onclick="openUsrForm()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="13" height="13"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Nuevo Usuario
+              </button>
+            </div>
+          </div>
+          <div style="padding:12px 18px;background:rgba(245,158,11,.06);border-bottom:1px solid var(--border);font-size:12px;color:var(--warning);display:flex;align-items:center;gap:8px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Los usuarios nuevos reciben un email de invitación. Solo el admin puede crear, editar rol y eliminar usuarios.
+          </div>
+          <div class="tbl-wrap"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Registrado</th><th>Acciones</th></tr></thead><tbody id="usr-tbody"><tr class="loading-row"><td colspan="5">Cargando…</td></tr></tbody></table></div>
+        </div>
+      </div>
     </div>
   </main>
 </div>
@@ -746,7 +827,22 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
           <div class="f cs2"><label>Domicilio</label><input id="f-domicilio" placeholder="Av. Corrientes 1234" type="text"></div>
           <div class="f"><label>Ciudad</label><input id="f-ciudad" placeholder="Buenos Aires" type="text"></div>
           <div class="f"><label>Contacto Familia</label><input id="f-contacto_familia" placeholder="Nombre y teléfono" type="text"></div>
-          <div class="f"><label>Médico Tratante</label><input id="f-medico_tratante" placeholder="Dr. Apellido" type="text"></div>
+          <div class="f"><label>Médico Tratante (texto libre)</label><input id="f-medico_tratante" placeholder="Dr. Apellido" type="text"></div>
+        </div>
+        <!-- Profesionales registrados -->
+        <div class="f" style="margin-top:12px;">
+          <label>Profesionales asignados</label>
+          <div class="prof-multi" id="prof-multi-widget">
+            <div class="prof-multi-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14" style="color:var(--text-muted);flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="prof-multi-q" placeholder="Buscar profesional…" oninput="filterProfMulti(this.value)">
+            </div>
+            <div class="prof-multi-list" id="prof-multi-list">
+              <div style="padding:10px;font-size:12px;color:var(--text-muted)">Cargando profesionales…</div>
+            </div>
+          </div>
+          <div class="prof-selected-tags" id="prof-selected-tags"></div>
+        </div>
         </div>
       </div>
       <div class="fsec">
@@ -971,6 +1067,83 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 
 <div class="toast-wrap" id="toast-wrap"></div>
 
+<!-- MODAL: PROFESIONAL FORM -->
+<div class="modal-overlay" id="prof-form-overlay" onclick="closeProfFormIfBg(event)">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-head">
+      <div><div class="modal-title" id="prof-form-title">Nuevo Profesional</div><div class="modal-sub">Datos del médico o profesional de salud</div></div>
+      <button class="close-btn" onclick="closeProfForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="fgrid">
+        <div class="f"><label>Apellido *</label><input id="pf-apellido" type="text" placeholder="García"></div>
+        <div class="f cs2"><label>Nombres *</label><input id="pf-nombres" type="text" placeholder="Carlos Alberto"></div>
+        <div class="f"><label>Especialidad</label><input id="pf-especialidad" type="text" placeholder="Clínica Médica, Kinesiología…"></div>
+        <div class="f"><label>Matrícula</label><input id="pf-matricula" type="text" placeholder="MN 12345"></div>
+        <div class="f"><label>Teléfono</label><input id="pf-telefono" type="text" placeholder="+54 9 11 1234-5678"></div>
+        <div class="f"><label>Mail</label><input id="pf-mail" type="email" placeholder="medico@clinica.com"></div>
+        <div class="f cs2"><label>Domicilio</label><input id="pf-domicilio" type="text" placeholder="Av. Santa Fe 1234"></div>
+        <div class="f"><label>Ciudad</label><input id="pf-ciudad" type="text" placeholder="Buenos Aires"></div>
+        <div class="f cs3"><label>Observaciones</label><textarea id="pf-observaciones" placeholder="Notas sobre el profesional, días de atención, etc."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeProfForm()">Cancelar</button>
+      <button class="btn btn-primary" id="btn-prof-save" onclick="saveProfesional()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="15" height="15"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+        <span id="btn-prof-save-txt">Guardar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: PROFESIONAL DETALLE -->
+<div class="modal-overlay" id="prof-det-overlay" onclick="closeProfDetIfBg(event)">
+  <div class="modal" style="max-width:800px;">
+    <div class="modal-head">
+      <div><div class="modal-title" id="prof-det-name">—</div><div class="modal-sub" id="prof-det-sub"></div></div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn btn-ghost btn-sm admin-only" id="btn-prof-det-edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar
+        </button>
+        <button class="close-btn" onclick="closeProfDet()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>
+    </div>
+    <div class="modal-body" id="prof-det-body"></div>
+  </div>
+</div>
+
+<!-- MODAL: USUARIO FORM (admin only) -->
+<div class="modal-overlay" id="usr-form-overlay" onclick="closeUsrFormIfBg(event)">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-head">
+      <div><div class="modal-title" id="usr-form-title">Nuevo Usuario</div><div class="modal-sub" id="usr-form-sub">Recibirá un email de invitación</div></div>
+      <button class="close-btn" onclick="closeUsrForm()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="fgrid fgrid-1" style="gap:14px;">
+        <div class="f"><label>Email *</label><input id="uf-email" type="email" placeholder="usuario@clinica.com"></div>
+        <div class="f"><label>Nombre</label><input id="uf-nombre" type="text" placeholder="Nombre completo"></div>
+        <div class="f"><label>Rol *</label>
+          <select id="uf-rol">
+            <option value="usuario">Usuario (puede crear/editar, no eliminar pacientes)</option>
+            <option value="admin">Admin (acceso completo)</option>
+          </select>
+        </div>
+        <div class="f" id="uf-pw-wrap"><label>Contraseña nueva</label><input id="uf-pw" type="password" placeholder="Mínimo 6 caracteres"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeUsrForm()">Cancelar</button>
+      <button class="btn btn-primary" id="btn-usr-save" onclick="saveUsuario()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="15" height="15"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/></svg>
+        <span id="btn-usr-save-txt">Guardar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════════════════════════════
      SUPABASE + LOGIC
 ══════════════════════════════════════ -->
@@ -981,9 +1154,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL  = 'https://dnpglzeiylswbltgzqwn.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRucGdsemVpeWxzd2JsdGd6cXduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjE3MzQsImV4cCI6MjA5NTAzNzczNH0.L_k89EHykOKjIOulSN0pwCm07u0qYFUPNBgwBqiviU8';
 const TABLE   = 'pacientes';
-const C_TABLE = 'controles'; // nueva tabla de controles diarios
-const CI_TABLE= 'control_imagenes'; // imágenes vinculadas a cada control
+const C_TABLE = 'controles';
+const CI_TABLE= 'control_imagenes';
 const BUCKET  = 'adjuntos';
+const P_TABLE = 'profesionales';
+const PP_TABLE= 'paciente_profesional';
+const USR_TABLE='perfiles';
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
@@ -1014,6 +1190,15 @@ let rptTo        = null;
 let rptControles = [];       // controles cargados para el período
 // CSV state
 let csvControles = [];
+// Profesionales state
+let profesionales    = [];
+let editProfId       = null;
+let selectedProfIds  = [];   // IDs seleccionados en el multiselect del form paciente
+// Usuarios state
+let usuarios     = [];
+let editUsrId    = null;
+let currentUser  = null;
+let isAdmin      = false;
 
 /* ── Columnas DB pacientes ── */
 const DB_COLS = [
@@ -1052,14 +1237,36 @@ const CTRL_LABELS = {
    AUTH
 ══════════════════════════════ */
 sb.auth.onAuthStateChange(async (_e, session) => {
-  if (session) { showApp(session.user); await loadPacientes(); }
-  else showLogin();
+  if (session) {
+    currentUser = session.user;
+    await loadUserRole(session.user.id);
+    showApp(session.user);
+    await Promise.all([loadPacientes(), loadProfesionales()]);
+  } else {
+    currentUser = null; isAdmin = false;
+    document.body.classList.remove('is-admin');
+    showLogin();
+  }
 });
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
-  if (session) { showApp(session.user); await loadPacientes(); }
-  else showLogin();
+  if (session) {
+    currentUser = session.user;
+    await loadUserRole(session.user.id);
+    showApp(session.user);
+    await Promise.all([loadPacientes(), loadProfesionales()]);
+  } else showLogin();
 })();
+
+async function loadUserRole(uid) {
+  const { data } = await sb.from(USR_TABLE).select('rol,nombre').eq('id', uid).single();
+  isAdmin = data?.rol === 'admin';
+  if (isAdmin) document.body.classList.add('is-admin');
+  else document.body.classList.remove('is-admin');
+  // update sidebar user role label
+  const roleEl = document.querySelector('.user-role');
+  if (roleEl) roleEl.textContent = isAdmin ? 'Administrador' : 'Usuario';
+}
 
 function showLogin() {
   document.getElementById('page-login').classList.add('active');
@@ -1118,12 +1325,20 @@ window.savePaciente = async function() {
   DB_COLS.forEach(col=>{ payload[col]=gv(col)||null; });
   const btn=document.getElementById('btn-save'), txt=document.getElementById('btn-save-txt');
   btn.disabled=true; txt.textContent='Guardando…';
-  let error;
-  if (editId) { ({error}=await sb.from(TABLE).update(payload).eq('id',editId)); if(!error) toast('Paciente actualizado.','success'); }
-  else { ({error}=await sb.from(TABLE).insert(payload)); if(!error) toast('Paciente registrado.','success'); }
+  let error, savedId;
+  if (editId) {
+    ({error}=await sb.from(TABLE).update(payload).eq('id',editId));
+    savedId=editId;
+    if(!error) toast('Paciente actualizado.','success');
+  } else {
+    const {data:ins,error:ie}=await sb.from(TABLE).insert(payload).select().single();
+    error=ie; savedId=ins?.id;
+    if(!error) toast('Paciente registrado.','success');
+  }
   btn.disabled=false; txt.textContent='Guardar Paciente';
   if (error) { toast(`Error: ${error.message}`,'error'); return; }
-  closeForm(); await loadPacientes();
+  if (savedId) await saveProfLinks(savedId);
+  window.closeForm(); await loadPacientes();
 };
 
 window.askDelete=function(id){ deleteId=id; document.getElementById('del-overlay').classList.add('open'); };
@@ -1643,7 +1858,7 @@ function actionsCell(id){ return `<td><div class="act-row">
   <button class="ic-btn" style="background:rgba(139,92,246,.12);color:#a78bfa;" onclick="openEntrada('${id}')" title="Nueva entrada del día"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
   <button class="ic-btn ic-btn-amber" onclick="printPaciente('${id}')"    title="Imprimir ficha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
   <button class="ic-btn ic-btn-green" onclick="openForm('${id}')"         title="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_EDIT}</svg></button>
-  <button class="ic-btn ic-btn-red"   onclick="askDelete('${id}')"        title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_DEL}</svg></button>
+  ${isAdmin ? `<button class="ic-btn ic-btn-red" onclick="askDelete('${id}')" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_DEL}</svg></button>` : ''}
 </div></td>`; }
 
 function renderDash(){ const list=filteredList.slice(0,6),tb=document.getElementById('dash-tbody'); if(!list.length){tb.innerHTML=emptyRow(6,ICO_USERS,'Sin pacientes','Registrá el primer paciente');return;} tb.innerHTML=list.map(p=>`<tr>${patientCell(p)}<td><span class="td-m">${p.dni||'—'}</span></td><td>${p.patologia?`<span class="tag ${tagC(p.id)}">${hl(p.patologia)}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.medico_tratante?hl(p.medico_tratante):'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.ciudad?hl(p.ciudad):'<span style="color:var(--text-muted)">—</span>'}</td>${actionsCell(p.id)}</tr>`).join(''); }
@@ -1674,7 +1889,22 @@ function renderEstudios(){ const list=pacientes.filter(p=>p.estudios_complementa
 /* ══════════════════════════════
    MODALES
 ══════════════════════════════ */
-window.openForm=function(id=null){ editId=id||null; clearFormValues(); document.getElementById('form-modal-title').textContent=id?'Editar Paciente':'Nuevo Paciente'; if(id){const p=pacientes.find(x=>x.id===id);if(p) setFormValues(p);} document.getElementById('form-overlay').classList.add('open'); };
+window.openForm=async function(id=null){
+  editId=id||null;
+  clearFormValues();
+  selectedProfIds=[];
+  document.getElementById('prof-multi-q').value='';
+  document.getElementById('prof-form-title') // just ensure profs loaded
+  buildProfMultiList();
+  renderProfTags();
+  document.getElementById('form-modal-title').textContent=id?'Editar Paciente':'Nuevo Paciente';
+  if(id){
+    const p=pacientes.find(x=>x.id===id);
+    if(p) setFormValues(p);
+    await loadPatientProfs(id);
+  }
+  document.getElementById('form-overlay').classList.add('open');
+};
 window.closeForm=function(){ document.getElementById('form-overlay').classList.remove('open'); editId=null; };
 window.closeFormIfBg=function(e){ if(e.target===document.getElementById('form-overlay')) window.closeForm(); };
 
@@ -1843,6 +2073,17 @@ window.openDet=async function(id){
   const note=(lbl,val,color='var(--accent)')=>`<div class="clin-note" style="border-left-color:${color}"><div class="clin-lbl" style="color:${color}">${lbl}</div><div class="clin-txt">${val||'<span style="color:var(--text-muted)">Sin datos registrados.</span>'}</div></div>`;
   const galleryId=`gallery-${id}`, ctrlListId=`ctrl-list-${id}`;
 
+  // Load assigned professionals
+  const {data:links}=await sb.from(PP_TABLE).select('profesional_id, profesionales(id,apellido,nombres,especialidad,matricula,telefono)').eq('paciente_id',id);
+  const profsAsig=(links||[]).map(l=>l.profesionales).filter(Boolean);
+  const profsHtml = profsAsig.length
+    ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">${profsAsig.map(pr=>`
+        <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:20px;padding:4px 12px 4px 8px;">
+          <div class="prof-avatar" style="width:22px;height:22px;border-radius:5px;font-size:9px;">${((pr.apellido||'')[0]||'').toUpperCase()}</div>
+          <span class="prof-link" style="font-size:12.5px;color:#34d399;" onclick="closeDet();openProfDet('${pr.id}')">${pr.apellido}, ${pr.nombres}${pr.especialidad?' · '+pr.especialidad:''}</span>
+        </span>`).join('')}</div>`
+    : '<span style="color:var(--text-muted);font-size:13px;">Sin profesionales asignados</span>';
+
   document.getElementById('det-body').innerHTML=`
     <div class="tabs">
       <div class="tab active" onclick="switchTab('datos',this)">Datos Personales</div>
@@ -1862,6 +2103,10 @@ window.openDet=async function(id){
         <div class="info-item"><div class="info-lbl">Médico Tratante</div><div class="info-val">${f(p.medico_tratante)}</div></div>
         <div class="info-item"><div class="info-lbl">Patología</div><div class="info-val">${f(p.patologia)}</div></div>
         <div class="info-item"><div class="info-lbl">Pat. 1 / 2</div><div class="info-val">${[p.patologia1,p.patologia2].filter(Boolean).join(' · ')||'—'}</div></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:8px;">Profesionales Asignados</div>
+        ${profsHtml}
       </div>
     </div>
     <div class="tab-pane" id="tab-clinico">
@@ -1937,16 +2182,377 @@ window.closeDel=function(){ document.getElementById('del-overlay').classList.rem
 window.closeDelIfBg=function(e){ if(e.target===document.getElementById('del-overlay')) window.closeDel(); };
 
 /* ══════════════════════════════
-   LIGHTBOX
+   CRUD PROFESIONALES
 ══════════════════════════════ */
+async function loadProfesionales() {
+  const { data, error } = await sb.from(P_TABLE).select('*').order('apellido');
+  if (error) { toast(`Error cargando profesionales: ${error.message}`,'error'); return; }
+  profesionales = data || [];
+  document.getElementById('prof-count').textContent = `${profesionales.length} profesional${profesionales.length!==1?'es':''}`;
+  buildProfMultiList();
+}
+
+function renderProfesionales() {
+  const tb = document.getElementById('prof-tbody');
+  if (!profesionales.length) {
+    tb.innerHTML = emptyRow(6,
+      `<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>`,
+      'Sin profesionales', 'Agregá el primer profesional médico');
+    return;
+  }
+  tb.innerHTML = profesionales.map(p => {
+    const inits = ((p.apellido||'')[0]||'').toUpperCase()+((p.nombres||'')[0]||'').toUpperCase();
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:10px;">
+        <div class="prof-avatar">${inits}</div>
+        <div>
+          <div class="td-p">
+            <span class="prof-link" onclick="openProfDet('${p.id}')">${p.apellido}, ${p.nombres}</span>
+          </div>
+          <div class="td-s">${p.mail||''}</div>
+        </div>
+      </div></td>
+      <td>${p.especialidad||'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td><span class="td-m">${p.matricula||'—'}</span></td>
+      <td>${p.telefono||'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td><span id="prof-pac-count-${p.id}" class="td-m">…</span></td>
+      <td><div class="act-row">
+        <button class="ic-btn ic-btn-blue" onclick="openProfDet('${p.id}')" title="Ver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_EYE}</svg></button>
+        <button class="ic-btn ic-btn-green admin-only" onclick="openProfForm('${p.id}')" title="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_EDIT}</svg></button>
+        <button class="ic-btn ic-btn-red admin-only" onclick="deleteProfesional('${p.id}')" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_DEL}</svg></button>
+      </div></td>
+    </tr>`;
+  }).join('');
+  // Load patient counts asynchronously
+  profesionales.forEach(p => loadProfPacCount(p.id));
+}
+
+async function loadProfPacCount(profId) {
+  const { count } = await sb.from(PP_TABLE).select('*',{count:'exact',head:true}).eq('profesional_id', profId);
+  const el = document.getElementById(`prof-pac-count-${profId}`);
+  if (el) el.textContent = `${count||0} pac.`;
+}
+
+window.openProfForm = function(id=null) {
+  if (!isAdmin) return;
+  editProfId = id || null;
+  ['pf-apellido','pf-nombres','pf-especialidad','pf-matricula','pf-telefono','pf-mail','pf-domicilio','pf-ciudad','pf-observaciones']
+    .forEach(fid => { const e=document.getElementById(fid); if(e) e.value=''; });
+  document.getElementById('prof-form-title').textContent = id ? 'Editar Profesional' : 'Nuevo Profesional';
+  if (id) {
+    const p = profesionales.find(x=>x.id===id);
+    if (p) {
+      document.getElementById('pf-apellido').value     = p.apellido||'';
+      document.getElementById('pf-nombres').value      = p.nombres||'';
+      document.getElementById('pf-especialidad').value = p.especialidad||'';
+      document.getElementById('pf-matricula').value    = p.matricula||'';
+      document.getElementById('pf-telefono').value     = p.telefono||'';
+      document.getElementById('pf-mail').value         = p.mail||'';
+      document.getElementById('pf-domicilio').value    = p.domicilio||'';
+      document.getElementById('pf-ciudad').value       = p.ciudad||'';
+      document.getElementById('pf-observaciones').value= p.observaciones||'';
+    }
+  }
+  document.getElementById('prof-form-overlay').classList.add('open');
+};
+
+window.closeProfForm = function() { document.getElementById('prof-form-overlay').classList.remove('open'); editProfId=null; };
+window.closeProfFormIfBg = function(e) { if(e.target===document.getElementById('prof-form-overlay')) window.closeProfForm(); };
+
+window.saveProfesional = async function() {
+  if (!isAdmin) return;
+  const apellido = document.getElementById('pf-apellido').value.trim();
+  const nombres  = document.getElementById('pf-nombres').value.trim();
+  if (!apellido||!nombres) { toast('Apellido y Nombres son obligatorios.','error'); return; }
+  const payload = {
+    apellido, nombres,
+    especialidad:  document.getElementById('pf-especialidad').value.trim()||null,
+    matricula:     document.getElementById('pf-matricula').value.trim()||null,
+    telefono:      document.getElementById('pf-telefono').value.trim()||null,
+    mail:          document.getElementById('pf-mail').value.trim()||null,
+    domicilio:     document.getElementById('pf-domicilio').value.trim()||null,
+    ciudad:        document.getElementById('pf-ciudad').value.trim()||null,
+    observaciones: document.getElementById('pf-observaciones').value.trim()||null,
+  };
+  const btn=document.getElementById('btn-prof-save'),txt=document.getElementById('btn-prof-save-txt');
+  btn.disabled=true; txt.textContent='Guardando…';
+  let error;
+  if (editProfId) { ({error}=await sb.from(P_TABLE).update(payload).eq('id',editProfId)); }
+  else { ({error}=await sb.from(P_TABLE).insert(payload)); }
+  btn.disabled=false; txt.textContent='Guardar';
+  if (error) { toast(`Error: ${error.message}`,'error'); return; }
+  toast(editProfId?'Profesional actualizado.':'Profesional registrado.','success');
+  window.closeProfForm();
+  await loadProfesionales();
+  renderProfesionales();
+};
+
+window.deleteProfesional = async function(id) {
+  if (!isAdmin) return;
+  if (!confirm('¿Eliminar este profesional? Se desvinculará de todos sus pacientes.')) return;
+  await sb.from(PP_TABLE).delete().eq('profesional_id',id);
+  const { error } = await sb.from(P_TABLE).delete().eq('id',id);
+  if (error) { toast(`Error: ${error.message}`,'error'); return; }
+  toast('Profesional eliminado.','info');
+  await loadProfesionales();
+  renderProfesionales();
+};
+
+window.openProfDet = async function(id) {
+  const p = profesionales.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('prof-det-name').textContent = `${p.apellido}, ${p.nombres}`;
+  document.getElementById('prof-det-sub').textContent  = [p.especialidad, p.matricula ? 'Mat. '+p.matricula : ''].filter(Boolean).join(' · ');
+  document.getElementById('btn-prof-det-edit').onclick = ()=>{ closeProfDet(); window.openProfForm(id); };
+
+  // Load patients of this professional
+  const { data: links } = await sb.from(PP_TABLE).select('paciente_id, pacientes(id,apellido,nombres,dni,patologia)').eq('profesional_id',id);
+  const pacs = (links||[]).map(l=>l.pacientes).filter(Boolean);
+
+  const fi = (lbl,val) => val ? `<div class="info-item"><div class="info-lbl">${lbl}</div><div class="info-val">${val}</div></div>` : '';
+  document.getElementById('prof-det-body').innerHTML = `
+    <div class="info-grid" style="margin-bottom:18px;">
+      ${fi('Especialidad',p.especialidad)}
+      ${fi('Matrícula',p.matricula)}
+      ${fi('Teléfono',p.telefono)}
+      ${fi('Mail',p.mail)}
+      ${fi('Domicilio',p.domicilio)}
+      ${fi('Ciudad',p.ciudad)}
+    </div>
+    ${p.observaciones?`<div class="clin-note"><div class="clin-lbl">Observaciones</div><div class="clin-txt">${p.observaciones}</div></div>`:''}
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin:16px 0 10px;">
+      Pacientes asignados (${pacs.length})
+    </div>
+    ${pacs.length ? `<div class="tbl-wrap"><table><thead><tr><th>Paciente</th><th>DNI</th><th>Patología</th><th>Ver</th></tr></thead><tbody>
+      ${pacs.map(pac=>`<tr>
+        <td class="td-p">${pac.apellido}, ${pac.nombres}</td>
+        <td class="td-m">${pac.dni||'—'}</td>
+        <td>${pac.patologia||'<span style="color:var(--text-muted)">—</span>'}</td>
+        <td><button class="ic-btn ic-btn-blue" onclick="closeProfDet();openDet('${pac.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_EYE}</svg></button></td>
+      </tr>`).join('')}
+    </tbody></table></div>`
+    : '<p style="font-size:13px;color:var(--text-muted)">Sin pacientes asignados actualmente.</p>'}`;
+
+  document.getElementById('prof-det-overlay').classList.add('open');
+};
+
+window.closeProfDet = function() { document.getElementById('prof-det-overlay').classList.remove('open'); };
+window.closeProfDetIfBg = function(e) { if(e.target===document.getElementById('prof-det-overlay')) window.closeProfDet(); };
+
+/* ══════════════════════════════
+   MULTISELECT PROFESIONALES (form paciente)
+══════════════════════════════ */
+function buildProfMultiList(filter='') {
+  const list = document.getElementById('prof-multi-list');
+  if (!list) return;
+  const q = filter.toLowerCase();
+  const items = profesionales.filter(p =>
+    !q || `${p.apellido} ${p.nombres} ${p.especialidad||''}`.toLowerCase().includes(q)
+  );
+  if (!items.length) {
+    list.innerHTML='<div style="padding:10px;font-size:12px;color:var(--text-muted)">Sin resultados.</div>';
+    return;
+  }
+  list.innerHTML = items.map(p => {
+    const sel = selectedProfIds.includes(p.id);
+    return `<label class="prof-multi-item ${sel?'selected':''}" id="pmi-${p.id}">
+      <input type="checkbox" ${sel?'checked':''} onchange="toggleProfSel('${p.id}',this.checked)">
+      <div>
+        <div style="font-weight:500;color:var(--text)">${p.apellido}, ${p.nombres}</div>
+        ${p.especialidad?`<div style="font-size:11px;color:var(--text-muted)">${p.especialidad}</div>`:''}
+      </div>
+    </label>`;
+  }).join('');
+}
+
+window.filterProfMulti = function(val) { buildProfMultiList(val); };
+
+window.toggleProfSel = function(profId, checked) {
+  if (checked && !selectedProfIds.includes(profId)) selectedProfIds.push(profId);
+  else if (!checked) selectedProfIds = selectedProfIds.filter(x=>x!==profId);
+  // Update item style
+  const item = document.getElementById(`pmi-${profId}`);
+  if (item) item.classList.toggle('selected', checked);
+  renderProfTags();
+};
+
+function renderProfTags() {
+  const cont = document.getElementById('prof-selected-tags');
+  if (!cont) return;
+  cont.innerHTML = selectedProfIds.map(id => {
+    const p = profesionales.find(x=>x.id===id);
+    if (!p) return '';
+    const label = `${p.apellido}, ${p.nombres}${p.especialidad?' · '+p.especialidad:''}`;
+    return `<span class="prof-tag" title="${label}">
+      <span class="prof-tag-txt">${label}</span>
+      <button onclick="toggleProfSel('${id}',false);const cb=document.querySelector('#pmi-${id} input');if(cb){cb.checked=false;}" title="Quitar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </span>`;
+  }).join('');
+}
+
+// Load profs assigned to a patient (for edit form)
+async function loadPatientProfs(pacienteId) {
+  const { data } = await sb.from(PP_TABLE).select('profesional_id').eq('paciente_id', pacienteId);
+  selectedProfIds = (data||[]).map(r=>r.profesional_id);
+  buildProfMultiList();
+  renderProfTags();
+}
+
+// Save profesional links for a patient
+async function saveProfLinks(pacienteId) {
+  // Get current links
+  const { data: existing } = await sb.from(PP_TABLE).select('profesional_id').eq('paciente_id', pacienteId);
+  const existingIds = (existing||[]).map(r=>r.profesional_id);
+  // Insert new
+  const toAdd = selectedProfIds.filter(id => !existingIds.includes(id));
+  if (toAdd.length) await sb.from(PP_TABLE).insert(toAdd.map(pid=>({paciente_id:pacienteId,profesional_id:pid})));
+  // Remove old
+  const toRemove = existingIds.filter(id => !selectedProfIds.includes(id));
+  for (const pid of toRemove) await sb.from(PP_TABLE).delete().eq('paciente_id',pacienteId).eq('profesional_id',pid);
+}
+
+/* ══════════════════════════════
+   CRUD USUARIOS (admin only)
+══════════════════════════════ */
+async function renderUsuarios() {
+  if (!isAdmin) return;
+  const tb = document.getElementById('usr-tbody');
+  tb.innerHTML = '<tr class="loading-row"><td colspan="5">Cargando…</td></tr>';
+  const { data, error } = await sb.from(USR_TABLE).select('*').order('created_at');
+  if (error) { toast(`Error: ${error.message}`,'error'); return; }
+  usuarios = data || [];
+  document.getElementById('usr-count').textContent = `${usuarios.length} usuario${usuarios.length!==1?'s':''}`;
+  if (!usuarios.length) {
+    tb.innerHTML = emptyRow(5,`<circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/>`,'Sin usuarios','—');
+    return;
+  }
+  tb.innerHTML = usuarios.map(u => {
+    const isSelf = u.id === currentUser?.id;
+    const date = u.created_at ? new Date(u.created_at).toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+    return `<tr>
+      <td><div class="td-p">${u.email||'—'}${isSelf?'<span style="font-size:10px;color:var(--accent);margin-left:6px;">(vos)</span>':''}</div></td>
+      <td>${u.nombre||'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td><span class="role-badge ${u.rol==='admin'?'role-admin':'role-usuario'}">${u.rol==='admin'?'Admin':'Usuario'}</span></td>
+      <td class="td-s">${date}</td>
+      <td><div class="act-row">
+        <button class="ic-btn ic-btn-green" onclick="openUsrForm('${u.id}')" title="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_EDIT}</svg></button>
+        ${!isSelf?`<button class="ic-btn ic-btn-red" onclick="deleteUsuario('${u.id}')" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_DEL}</svg></button>`:''}
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+window.openUsrForm = function(id=null) {
+  if (!isAdmin) return;
+  editUsrId = id || null;
+  document.getElementById('uf-email').value  = '';
+  document.getElementById('uf-nombre').value = '';
+  document.getElementById('uf-rol').value    = 'usuario';
+  document.getElementById('uf-pw').value     = '';
+  const pwWrap = document.getElementById('uf-pw-wrap');
+
+  if (id) {
+    const u = usuarios.find(x=>x.id===id);
+    if (u) {
+      document.getElementById('uf-email').value  = u.email||'';
+      document.getElementById('uf-nombre').value = u.nombre||'';
+      document.getElementById('uf-rol').value    = u.rol||'usuario';
+    }
+    document.getElementById('usr-form-title').textContent = 'Editar Usuario';
+    document.getElementById('usr-form-sub').textContent   = 'Modificá nombre, rol o contraseña';
+    if (pwWrap) pwWrap.style.display='block';
+  } else {
+    document.getElementById('usr-form-title').textContent = 'Nuevo Usuario';
+    document.getElementById('usr-form-sub').textContent   = 'Ingresá email y contraseña inicial';
+    if (pwWrap) pwWrap.style.display='block';
+  }
+  document.getElementById('usr-form-overlay').classList.add('open');
+};
+
+window.closeUsrForm  = function() { document.getElementById('usr-form-overlay').classList.remove('open'); editUsrId=null; };
+window.closeUsrFormIfBg = function(e) { if(e.target===document.getElementById('usr-form-overlay')) window.closeUsrForm(); };
+
+window.saveUsuario = async function() {
+  if (!isAdmin) return;
+  const email  = document.getElementById('uf-email').value.trim();
+  const nombre = document.getElementById('uf-nombre').value.trim();
+  const rol    = document.getElementById('uf-rol').value;
+  const pw     = document.getElementById('uf-pw').value;
+
+  const btn=document.getElementById('btn-usr-save'),txt=document.getElementById('btn-usr-save-txt');
+  btn.disabled=true; txt.textContent='Guardando…';
+
+  if (editUsrId) {
+    // Update perfil (nombre + rol)
+    const { error:pe } = await sb.from(USR_TABLE).update({nombre,rol}).eq('id',editUsrId);
+    if (pe) { toast(`Error: ${pe.message}`,'error'); btn.disabled=false; txt.textContent='Guardar'; return; }
+    // Password change via user's own session (only works for self) — admin needs service key for others
+    // We update the perfil and show a note if pw was typed
+    if (pw && pw.length >= 6) {
+      if (editUsrId === currentUser?.id) {
+        const { error:pwe } = await sb.auth.updateUser({ password: pw });
+        if (pwe) { toast(`Error al cambiar contraseña: ${pwe.message}`,'error'); }
+        else { toast('Contraseña actualizada.','success'); }
+      } else {
+        toast('⚠️ Para cambiar la contraseña de otro usuario, hacelo desde el Dashboard de Supabase → Authentication → Users.','info');
+      }
+    }
+    toast('Usuario actualizado.','success');
+  } else {
+    // New user: create via signUp (sends confirmation email)
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast('Email inválido.','error'); btn.disabled=false; txt.textContent='Guardar'; return;
+    }
+    if (!pw || pw.length < 6) {
+      toast('La contraseña debe tener al menos 6 caracteres.','error'); btn.disabled=false; txt.textContent='Guardar'; return;
+    }
+    // Use Supabase Admin API if available, fallback: create via signUp
+    // Note: signUp from another session won't auto-login — user gets email confirmation
+    const { data: nu, error: ne } = await sb.auth.signUp({ email, password: pw, options:{ emailRedirectTo: window.location.href } });
+    if (ne) { toast(`Error: ${ne.message}`,'error'); btn.disabled=false; txt.textContent='Guardar'; return; }
+    // Update perfil record
+    if (nu?.user) {
+      await sb.from(USR_TABLE).update({nombre,rol,email}).eq('id',nu.user.id);
+    }
+    toast('Usuario creado. Recibirá un email de confirmación.','success');
+  }
+  btn.disabled=false; txt.textContent='Guardar';
+  window.closeUsrForm();
+  await renderUsuarios();
+};
+
+window.deleteUsuario = async function(id) {
+  if (!isAdmin || id===currentUser?.id) return;
+  if (!confirm('¿Eliminar este usuario? No podrá más acceder al sistema.')) return;
+  // Delete perfil (auth.users requires service key — we delete the profile row)
+  const { error } = await sb.from(USR_TABLE).delete().eq('id',id);
+  if (error) { toast(`Error: ${error.message}`,'error'); return; }
+  toast('Perfil eliminado. Para eliminar el acceso definitivamente, remové el usuario en Supabase Dashboard → Authentication.','info');
+  await renderUsuarios();
+};
 window.openLightbox=function(url){ document.getElementById('lightbox-img').src=url; document.getElementById('lightbox').classList.add('open'); };
 window.closeLightbox=function(){ document.getElementById('lightbox').classList.remove('open'); };
 
 /* ══════════════════════════════
    NAV
 ══════════════════════════════ */
-const VIEW_TITLES={dashboard:'Dashboard',pacientes:'Pacientes',historia:'Historias Clínicas',estudios:'Estudios Complementarios'};
-window.showView=function(name,el){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); document.getElementById('view-'+name).classList.add('active'); if(el) el.classList.add('active'); document.getElementById('page-title').textContent=VIEW_TITLES[name]||name; if(name==='historia') renderHistoria(); if(name==='estudios') renderEstudios(); if(window.innerWidth<=768) window.closeSb(); };
+const VIEW_TITLES={dashboard:'Dashboard',pacientes:'Pacientes',historia:'Historias Clínicas',estudios:'Estudios Complementarios',profesionales:'Profesionales Médicos',usuarios:'Gestión de Usuarios'};
+window.showView=function(name,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const view = document.getElementById('view-'+name);
+  if (!view) return;
+  view.classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('page-title').textContent=VIEW_TITLES[name]||name;
+  if(name==='historia') renderHistoria();
+  if(name==='estudios') renderEstudios();
+  if(name==='profesionales') renderProfesionales();
+  if(name==='usuarios' && isAdmin) renderUsuarios();
+  if(window.innerWidth<=768) window.closeSb();
+};
 window.openSb=()=>{ document.getElementById('sidebar').classList.add('open'); document.getElementById('sb-overlay').classList.add('show'); };
 window.closeSb=()=>{ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sb-overlay').classList.remove('show'); };
 
@@ -1966,7 +2572,7 @@ function toast(msg,type='info'){
 /* ══════════════════════════════
    KEYBOARD
 ══════════════════════════════ */
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){window.closeForm();window.closeDet();window.closeDel();window.closeLightbox();window.closeRpt();window.closeCsvModal();window.closeEntrada();} if((e.ctrlKey||e.metaKey)&&e.key==='n'){e.preventDefault();window.openForm();} });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){window.closeForm();window.closeDet();window.closeDel();window.closeLightbox();window.closeRpt();window.closeCsvModal();window.closeEntrada();window.closeProfForm();window.closeProfDet();window.closeUsrForm();} if((e.ctrlKey||e.metaKey)&&e.key==='n'){e.preventDefault();window.openForm();} });
 
 const s=document.createElement('style'); s.textContent='@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}'; document.head.appendChild(s);
 
