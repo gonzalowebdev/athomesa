@@ -233,13 +233,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow:hid
 .filter-row::-webkit-scrollbar{display:none;}
 .chip{padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:var(--text-soft);white-space:nowrap;transition:all var(--ease);background:none;font-family:var(--sans);}
 .chip:hover,.chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-table{width:100%;border-collapse:collapse;}
-/* Inside modals, tables should never force horizontal scroll */
-.modal-body .tbl-wrap{overflow-x:visible;}
-.modal-body table{min-width:0;}
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:520px;}
 th{padding:10px 14px;text-align:left;font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.9px;color:var(--text-muted);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);white-space:nowrap;}
-td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(38,48,65,.5);color:var(--text-soft);vertical-align:middle;word-break:break-word;}
+td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(38,48,65,.5);color:var(--text-soft);vertical-align:middle;}
 tr:last-child td{border-bottom:none;}
 tbody tr:hover td{background:rgba(255,255,255,.018);}
 .td-p{color:var(--text);font-weight:500;}
@@ -278,10 +275,10 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;place-items:start center;padding:20px;backdrop-filter:blur(4px);overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .modal-overlay.open{display:grid;animation:fadeIn .18s ease;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:860px;box-shadow:0 24px 80px rgba(0,0,0,.5);margin:auto;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:860px;box-shadow:0 24px 80px rgba(0,0,0,.5);margin:auto;overflow:hidden;}
 .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:2;border-radius:var(--r-lg) var(--r-lg) 0 0;gap:10px;}
 .modal-head > div:first-child{flex:1;min-width:0;}
-.modal-head > div:last-child{display:flex;gap:6px;align-items:center;flex-wrap:wrap;flex-shrink:0;max-width:60%;}
+.modal-head > div:last-child{display:flex;gap:6px;align-items:center;flex-wrap:wrap;flex-shrink:0;}
 .modal-title{font-family:var(--ui);font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
 .modal-sub{font-size:11px;color:var(--text-muted);margin-top:2px;}
 .close-btn{width:32px;height:32px;border-radius:7px;border:1px solid var(--border);background:none;color:var(--text-muted);cursor:pointer;display:grid;place-items:center;transition:all var(--ease);flex-shrink:0;}
@@ -289,11 +286,10 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 .close-btn svg{width:14px;height:14px;}
 .modal-body{padding:18px 20px;overflow-x:hidden;}
 .modal-foot{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:12px 20px;border-top:1px solid var(--border);position:sticky;bottom:0;background:var(--surface);border-radius:0 0 var(--r-lg) var(--r-lg);flex-wrap:wrap;}
-@media(max-width:600px){
+@media(max-width:480px){
   .modal-overlay{padding:0;align-items:flex-end;}
-  .modal{border-radius:var(--r-lg) var(--r-lg) 0 0;min-height:60vh;max-height:96vh;overflow-y:auto;margin-bottom:0;}
-  .modal-head{border-radius:var(--r-lg) var(--r-lg) 0 0;flex-wrap:wrap;}
-  .modal-head > div:last-child{max-width:100%;margin-top:2px;}
+  .modal{border-radius:var(--r-lg) var(--r-lg) 0 0;min-height:60vh;max-height:95vh;overflow-y:auto;margin-bottom:0;}
+  .modal-head{border-radius:var(--r-lg) var(--r-lg) 0 0;}
   .modal-foot{border-radius:0;position:sticky;bottom:0;}
   .btn-sm{font-size:11px;padding:5px 9px;}
 }
@@ -355,22 +351,18 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 .prof-avatar{width:38px;height:38px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,#10b981,#34d399);display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;}
 .prof-link{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
 .prof-link:hover{opacity:.8;}
-/* PROFESIONALES MULTISELECT */
 .prof-multi{border:1px solid var(--border);border-radius:8px;background:var(--bg);overflow:hidden;}
-.prof-multi-search{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--surface);}
-.prof-multi-search svg{width:14px;height:14px;color:var(--text-muted);flex-shrink:0;}
-.prof-multi-search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:var(--sans);font-size:13px;min-width:0;}
+.prof-multi-search{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--border);}
+.prof-multi-search input{background:none;border:none;outline:none;color:var(--text);font-family:var(--sans);font-size:13px;width:100%;}
 .prof-multi-search input::placeholder{color:var(--text-muted);font-size:12px;}
-.prof-multi-list{max-height:168px;overflow-y:auto;}
-.prof-multi-item{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;transition:background var(--ease);border-bottom:1px solid rgba(38,48,65,.4);}
-.prof-multi-item:last-child{border-bottom:none;}
+.prof-multi-list{max-height:160px;overflow-y:auto;}
+.prof-multi-item{display:flex;align-items:center;gap:9px;padding:8px 10px;cursor:pointer;transition:background var(--ease);font-size:13px;color:var(--text-soft);}
 .prof-multi-item:hover{background:var(--surface2);}
-.prof-multi-item.selected{background:var(--accent-soft);}
-.prof-multi-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;margin:0;}
-.prof-selected-tags{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;min-height:42px;background:var(--surface);border-top:1px solid var(--border);}
-.prof-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 8px 4px 10px;border-radius:20px;font-size:12px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2);max-width:220px;}
-.prof-tag-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.prof-tag button{background:none;border:none;cursor:pointer;color:inherit;display:grid;place-items:center;padding:0;opacity:.7;flex-shrink:0;}
+.prof-multi-item.selected{background:var(--accent-soft);color:var(--text);}
+.prof-multi-item input[type=checkbox]{accent-color:var(--accent);flex-shrink:0;}
+.prof-selected-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:16px;}
+.prof-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 10px;border-radius:20px;font-size:11.5px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.2);}
+.prof-tag button{background:none;border:none;cursor:pointer;color:inherit;display:grid;place-items:center;padding:0;opacity:.7;}
 .prof-tag button:hover{opacity:1;}
 .prof-tag button svg{width:11px;height:11px;}
 /* ADMIN-ONLY visibility */
@@ -413,11 +405,13 @@ body.is-admin .admin-only-block{display:block!important;}
 .prog-bar{height:100%;background:var(--accent);border-radius:2px;transition:width .2s ease;width:0%;}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:8px;}
 .gallery-item{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);aspect-ratio:1;background:var(--surface2);cursor:pointer;}
+.gallery-item-pdf{cursor:default;}
 .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--ease);}
 .gallery-item:hover img{transform:scale(1.05);}
-.gallery-item .del-attach{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:5px;background:rgba(239,68,68,.85);border:none;display:none;place-items:center;cursor:pointer;color:#fff;}
+.gallery-item .del-attach{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:5px;background:rgba(239,68,68,.85);border:none;display:grid;place-items:center;cursor:pointer;color:#fff;opacity:0;transition:opacity .18s ease;z-index:2;}
 .gallery-item .del-attach svg{width:11px;height:11px;}
-.gallery-item:hover .del-attach{display:grid;}
+.gallery-item:hover .del-attach{opacity:1;}
+@media(hover:none){.gallery-item .del-attach{opacity:1;}}
 .gallery-item .attach-name{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.7));font-size:9px;color:#fff;padding:10px 5px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:400;display:none;place-items:center;padding:20px;}
 .lightbox.open{display:grid;}
@@ -1446,23 +1440,25 @@ async function renderControlesList(pacienteId, containerId) {
     ].filter(Boolean).join('');
 
     const imgs = imgMap[c.id] || [];
-    const imgHtml = imgs.length ? `
-      <div style="margin-top:10px;">
-        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Imágenes (${imgs.length})</div>
-        <div class="gallery" style="grid-template-columns:repeat(auto-fill,minmax(70px,1fr));">
-          ${imgs.map(img => {
-            const url = attachUrl(img.storage_path);
-            return `<div class="gallery-item" style="position:relative;">
-              <img src="${url}" alt="${img.nombre}" onclick="openLightbox('${url}')" loading="lazy">
-              <div class="attach-name">${img.nombre}</div>
-              ${img.incluir_pdf ? '<div style="position:absolute;top:3px;left:3px;background:rgba(59,126,246,.85);border-radius:3px;padding:1px 5px;font-size:8px;color:#fff;">PDF</div>' : ''}
-              <button class="del-attach" onclick="deleteCtrlImg('${img.id}','${img.storage_path}','${pacienteId}','${containerId}')" title="Eliminar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>` : '';
+    let imgHtml = '';
+    if (imgs.length) {
+      const imgItems = [];
+      for (const img of imgs) {
+        const url = await signedUrl(img.storage_path);
+        imgItems.push(`<div class="gallery-item" style="position:relative;">
+          <img src="${url}" alt="${img.nombre}" onclick="openLightbox('${url}')" loading="lazy">
+          <div class="attach-name">${img.nombre}</div>
+          ${img.incluir_pdf ? '<div style="position:absolute;top:3px;left:3px;background:rgba(59,126,246,.85);border-radius:3px;padding:1px 5px;font-size:8px;color:#fff;">PDF</div>' : ''}
+          <button class="del-attach" onclick="event.stopPropagation();deleteCtrlImg('${img.id}','${img.storage_path}','${pacienteId}','${containerId}')" title="Eliminar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>`);
+      }
+      imgHtml = `<div style="margin-top:10px;">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:6px;">Imágenes (${imgItems.length})</div>
+        <div class="gallery" style="grid-template-columns:repeat(auto-fill,minmax(70px,1fr));">${imgItems.join('')}</div>
+      </div>`;
+    }
 
     return `<div class="ctrl-card">
       <div class="ctrl-date">
@@ -1547,10 +1543,10 @@ async function updateRptPreview() {
 }
 
 window.generatePeriodReport = async function() {
-  if (!rptPacId) return;
   if (!rptControles.length) { toast('No hay controles en el período seleccionado.','error'); return; }
   const p = pacientes.find(x=>x.id===rptPacId);
   if (!p) return;
+  toast('Preparando informe, espere…','info');
 
   // Load images for each control that have incluir_pdf = true
   const imgMap = {};
@@ -1566,22 +1562,37 @@ window.generatePeriodReport = async function() {
   const f2 = new Date(rptTo+'T00:00:00').toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
   const fld=(lbl,val)=>`<div class="pr-field"><div class="pr-field-lbl">${lbl}</div><div class="pr-field-val">${val||'<span class="pr-no-data">—</span>'}</div></div>`;
 
-  const ctrlHtml = rptControles.map((c,i) => {
-    const d=new Date(c.fecha+'T00:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  // Build control entries with base64 images
+  const ctrlHtmlParts = [];
+  for (let i = 0; i < rptControles.length; i++) {
+    const c = rptControles[i];
+    const d = new Date(c.fecha+'T00:00:00').toLocaleDateString('es-AR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
     const meta = [c.responsable, c.turno].filter(Boolean).join(' · ');
     const imgs = imgMap[c.id] || [];
-    const imgSection = imgs.length ? `
-      <div style="margin-top:8px;">
-        <div style="font-size:7.5pt;text-transform:uppercase;letter-spacing:.5px;color:#556070;margin-bottom:4px;">Imágenes del control (${imgs.length})</div>
-        <div class="pr-img-grid">
-          ${imgs.map(img=>`<div class="pr-img-item">
-            <img src="${attachUrl(img.storage_path)}" alt="${img.nombre}">
-            <div class="pr-img-caption">${img.nombre}</div>
-          </div>`).join('')}
-        </div>
-      </div>` : '';
 
-    return `<div class="pr-ctrl-entry">
+    // Convert each image to base64
+    let imgSection = '';
+    if (imgs.length) {
+      const imgItems = [];
+      for (const img of imgs) {
+        const url = await signedUrl(img.storage_path);
+        const b64 = await urlToBase64(url);
+        if (b64) {
+          imgItems.push(`<div class="pr-img-item">
+            <img src="${b64}" alt="${img.nombre}">
+            <div class="pr-img-caption">${img.nombre}</div>
+          </div>`);
+        }
+      }
+      if (imgItems.length) {
+        imgSection = `<div style="margin-top:8px;">
+          <div style="font-size:7.5pt;text-transform:uppercase;letter-spacing:.5px;color:#556070;margin-bottom:4px;">Imágenes del control (${imgItems.length})</div>
+          <div class="pr-img-grid">${imgItems.join('')}</div>
+        </div>`;
+      }
+    }
+
+    ctrlHtmlParts.push(`<div class="pr-ctrl-entry">
       <div class="pr-ctrl-header">
         <span class="pr-ctrl-num">Control ${i+1}</span>
         <span class="pr-ctrl-date">${d}</span>
@@ -1596,8 +1607,9 @@ window.generatePeriodReport = async function() {
         ${c.otros?`<div class="pr-ctrl-field"><div class="pr-ctrl-field-lbl">Otros</div>${c.otros}</div>`:''}
       </div>
       ${imgSection}
-    </div>`;
-  }).join('');
+    </div>`);
+  }
+  const ctrlHtml = ctrlHtmlParts.join('');
 
   document.getElementById('print-report').innerHTML=`
   <div class="pr-page">
@@ -1638,13 +1650,53 @@ window.generatePeriodReport = async function() {
 };
 
 /* Informe simple de ficha (botón "Imprimir ficha") */
-window.printPaciente = function(id) {
-  const p=pacientes.find(x=>x.id===id); if(!p) return;
-  const now=new Date();
-  const fPrint=now.toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
-  const hPrint=now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+window.printPaciente = async function(id) {
+  const p = pacientes.find(x=>x.id===id); if(!p) return;
+
+  toast('Preparando PDF, espere…', 'info');
+
+  const now    = new Date();
+  const fPrint = now.toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
+  const hPrint = now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
   const fld=(lbl,val)=>`<div class="pr-field"><div class="pr-field-lbl">${lbl}</div><div class="pr-field-val">${val||'<span class="pr-no-data">—</span>'}</div></div>`;
   const blk=(lbl,val,c='#3b7ef6')=>val?`<div class="pr-text-block" style="border-left-color:${c}"><div class="pr-text-lbl" style="color:${c}">${lbl}</div><div class="pr-text-val">${val}</div></div>`:'';
+
+  // Cargar adjuntos del paciente
+  const files = await loadAttachments(id);
+  const imgFiles = files.filter(f => /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(f.name));
+  const pdfFiles = files.filter(f => /\.pdf$/i.test(f.name));
+
+  // Convertir imágenes a base64 para que se impriman sin problemas de CORS
+  let adjuntosHtml = '';
+  if (files.length) {
+    const imgSections = [];
+    for (const f of imgFiles) {
+      const path = `${id}/${f.name}`;
+      const url  = await signedUrl(path);
+      const b64  = await urlToBase64(url);
+      if (b64) {
+        imgSections.push(`
+          <div class="pr-img-item">
+            <img src="${b64}" alt="${f.name}">
+            <div class="pr-img-caption">${f.name}</div>
+          </div>`);
+      }
+    }
+    const pdfLinks = await Promise.all(pdfFiles.map(async f => {
+      const url = await signedUrl(`${id}/${f.name}`);
+      return `<div style="margin-bottom:4px;font-size:9pt;">📄 <a href="${url}">${f.name}</a></div>`;
+    }));
+
+    if (imgSections.length || pdfLinks.length) {
+      adjuntosHtml = `
+        <div class="pr-section">
+          <div class="pr-section-title">Adjuntos del paciente</div>
+          ${pdfLinks.join('')}
+          <div class="pr-img-grid">${imgSections.join('')}</div>
+        </div>`;
+    }
+  }
+
   document.getElementById('print-report').innerHTML=`
   <div class="pr-page">
     <div class="pr-header">
@@ -1680,6 +1732,7 @@ window.printPaciente = function(id) {
       ${blk('Otros Profesionales',p.otros_profesionales,'#fb923c')}
       ${blk('Otros',p.otros,'#556070')}
     </div>
+    ${adjuntosHtml}
     <div class="pr-sign-row">
       <div class="pr-sign">Firma y Sello Médico Tratante<br><br><br>${p.medico_tratante||'____________________________'}</div>
       <div class="pr-sign">Firma Enfermería<br><br><br>____________________________</div>
@@ -1768,44 +1821,180 @@ window.doExportCSV = async function() {
 /* ══════════════════════════════
    ADJUNTOS
 ══════════════════════════════ */
-async function loadAttachments(pid){ const{data,error}=await sb.storage.from(BUCKET).list(pid,{sortBy:{column:'created_at',order:'asc'}}); if(error) return []; return data||[]; }
-async function uploadAttachment(pid,file){ const name=`${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`; const path=`${pid}/${name}`; const{error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:false,contentType:file.type}); if(error) throw error; return path; }
-function attachUrl(path){ const{data}=sb.storage.from(BUCKET).getPublicUrl(path); return data.publicUrl; }
-async function deleteAttachment(path){ const{error}=await sb.storage.from(BUCKET).remove([path]); if(error) throw error; }
+/* ══════════════════════════════
+   ADJUNTOS — STORAGE
+   Usa signed URLs (60 min) para que
+   funcionen tanto en buckets privados
+   como públicos sin problemas de CORS
+══════════════════════════════ */
 
-async function renderGallery(pid,cid){
-  const cont=document.getElementById(cid);
-  cont.innerHTML='<p style="font-size:12px;color:var(--text-muted)">Cargando…</p>';
-  const files=await loadAttachments(pid);
-  if(!files.length){ cont.innerHTML='<p style="font-size:12px;color:var(--text-muted)">Sin adjuntos todavía.</p>'; return; }
-  const items=files.map(f=>{
-    const path=`${pid}/${f.name}`,url=attachUrl(path),isImg=/\.(jpe?g|png|gif|webp|heic|heif)$/i.test(f.name);
-    return `<div class="gallery-item" title="${f.name}">
-      ${isImg?`<img src="${url}" alt="${f.name}" onclick="openLightbox('${url}')" loading="lazy">`:`<div style="display:grid;place-items:center;height:100%;font-size:11px;color:var(--text-muted);padding:6px;text-align:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" width="28" height="28"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg><a href="${url}" target="_blank" style="color:var(--accent);font-size:10px;margin-top:4px">Abrir</a></div>`}
-      <button class="del-attach" onclick="removeAttach('${path}','${pid}','${cid}')" title="Eliminar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-      <div class="attach-name">${f.name}</div>
-    </div>`;
-  });
-  cont.innerHTML=`<div class="gallery">${items.join('')}</div>`;
+// Lista archivos de un paciente en el bucket
+async function loadAttachments(pid) {
+  const { data, error } = await sb.storage
+    .from(BUCKET)
+    .list(pid, { sortBy: { column: 'name', order: 'asc' } });
+  if (error) { console.error('loadAttachments:', error.message); return []; }
+  // Filtra carpetas (como control_id subfolders)
+  return (data || []).filter(f => f.id != null);
 }
 
-window.removeAttach=async function(path,pid,cid){ if(!confirm('¿Eliminar este adjunto?')) return; try{ await deleteAttachment(path); toast('Adjunto eliminado.','info'); await renderGallery(pid,cid); }catch(e){ toast(`Error: ${e.message}`,'error'); } };
-window.handleFileUpload=async function(input,pid,cid){
-  const files=Array.from(input.files); if(!files.length) return;
-  const allowed=files.filter(f=>/\.(jpe?g|png|gif|webp|heic|heif|pdf)$/i.test(f.name));
-  if(allowed.length!==files.length) toast('Solo imágenes y PDF.','error');
-  if(!allowed.length) return;
-  const prog=document.getElementById('attach-prog-'+pid),bar=document.getElementById('attach-bar-'+pid);
-  prog.classList.add('show');
-  for(let i=0;i<allowed.length;i++){
-    bar.style.width=`${Math.round((i/allowed.length)*100)}%`;
-    prog.querySelector('span').textContent=`Subiendo ${i+1}/${allowed.length}: ${allowed[i].name}`;
-    try{ await uploadAttachment(pid,allowed[i]); }catch(e){ toast(`Error: ${e.message}`,'error'); }
+// Genera una signed URL válida por 1 hora
+async function signedUrl(path) {
+  const { data, error } = await sb.storage
+    .from(BUCKET)
+    .createSignedUrl(path, 3600);
+  if (error) {
+    // Fallback a public URL
+    const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
+    return pub.publicUrl;
   }
-  bar.style.width='100%'; prog.querySelector('span').textContent='¡Listo!';
-  setTimeout(()=>{ prog.classList.remove('show'); bar.style.width='0%'; },1200);
-  input.value=''; toast(`${allowed.length} archivo(s) subido(s).`,'success');
-  await renderGallery(pid,cid);
+  return data.signedUrl;
+}
+
+// Sube un archivo al bucket
+async function uploadAttachment(pid, file) {
+  const ext  = file.name.split('.').pop();
+  const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const name = `${Date.now()}_${safe}`;
+  const path = `${pid}/${name}`;
+  const { error } = await sb.storage
+    .from(BUCKET)
+    .upload(path, file, { upsert: false, contentType: file.type });
+  if (error) throw error;
+  return path;
+}
+
+// Elimina un archivo del bucket
+async function deleteAttachment(path) {
+  const { error } = await sb.storage.from(BUCKET).remove([path]);
+  if (error) throw error;
+}
+
+// Convierte una URL a base64 (necesario para imprimir sin CORS)
+async function urlToBase64(url) {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    const blob = await resp.blob();
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch { return null; }
+}
+
+// Renderiza la galería de adjuntos en el tab del modal
+async function renderGallery(pid, cid) {
+  const cont = document.getElementById(cid);
+  if (!cont) return;
+  cont.innerHTML = '<p style="font-size:12px;color:var(--text-muted);padding:6px 0">Cargando adjuntos…</p>';
+
+  const files = await loadAttachments(pid);
+  if (!files.length) {
+    cont.innerHTML = '<p style="font-size:12px;color:var(--text-muted);padding:6px 0">Sin adjuntos todavía.</p>';
+    return;
+  }
+
+  // Genera signed URLs para todos los archivos en paralelo
+  const urls = await Promise.all(
+    files.map(f => signedUrl(`${pid}/${f.name}`))
+  );
+
+  const items = files.map((f, i) => {
+    const path  = `${pid}/${f.name}`;
+    const url   = urls[i];
+    const isImg = /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(f.name);
+    const isPdf = /\.pdf$/i.test(f.name);
+
+    if (isImg) {
+      return `<div class="gallery-item">
+        <img src="${url}" alt="${f.name}" onclick="openLightbox('${url}')" loading="lazy">
+        <button class="del-attach" onclick="event.stopPropagation();removeAttach('${path}','${pid}','${cid}')" title="Eliminar adjunto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="attach-name">${f.name}</div>
+      </div>`;
+    } else if (isPdf) {
+      return `<div class="gallery-item gallery-item-pdf">
+        <a href="${url}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;text-decoration:none;padding:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" width="36" height="36"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+          <span style="font-size:9px;color:var(--text-muted);text-align:center;word-break:break-all;line-height:1.3;">PDF</span>
+        </a>
+        <button class="del-attach" onclick="event.stopPropagation();removeAttach('${path}','${pid}','${cid}')" title="Eliminar adjunto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="attach-name">${f.name}</div>
+      </div>`;
+    } else {
+      return `<div class="gallery-item gallery-item-pdf">
+        <a href="${url}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;text-decoration:none;padding:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" width="36" height="36"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+          <span style="font-size:9px;color:var(--text-muted);text-align:center;word-break:break-all;line-height:1.3;">Archivo</span>
+        </a>
+        <button class="del-attach" onclick="event.stopPropagation();removeAttach('${path}','${pid}','${cid}')" title="Eliminar adjunto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="attach-name">${f.name}</div>
+      </div>`;
+    }
+  });
+
+  cont.innerHTML = `<div class="gallery">${items.join('')}</div>`;
+}
+
+// Elimina un adjunto del bucket y refresca la galería
+window.removeAttach = async function(path, pid, cid) {
+  if (!confirm('¿Eliminar este adjunto? Esta acción no se puede deshacer.')) return;
+  try {
+    await deleteAttachment(path);
+    toast('Adjunto eliminado.', 'info');
+    await renderGallery(pid, cid);
+  } catch(e) {
+    toast(`Error al eliminar: ${e.message}`, 'error');
+  }
+};
+
+// Sube archivos seleccionados y refresca la galería
+window.handleFileUpload = async function(input, pid, cid) {
+  const files   = Array.from(input.files);
+  if (!files.length) return;
+
+  const allowed = files.filter(f => /\.(jpe?g|png|gif|webp|heic|heif|pdf)$/i.test(f.name));
+  if (allowed.length !== files.length)
+    toast('Solo se permiten imágenes (JPG, PNG, HEIC, WebP) y PDF.', 'error');
+  if (!allowed.length) return;
+
+  const prog = document.getElementById('attach-prog-' + pid);
+  const bar  = document.getElementById('attach-bar-'  + pid);
+  if (prog) prog.classList.add('show');
+
+  let ok = 0, fail = 0;
+  for (let i = 0; i < allowed.length; i++) {
+    if (bar) bar.style.width = `${Math.round(((i) / allowed.length) * 100)}%`;
+    const span = prog?.querySelector('span');
+    if (span) span.textContent = `Subiendo ${i+1}/${allowed.length}: ${allowed[i].name}`;
+    try {
+      await uploadAttachment(pid, allowed[i]);
+      ok++;
+    } catch(e) {
+      fail++;
+      toast(`Error subiendo "${allowed[i].name}": ${e.message}`, 'error');
+    }
+  }
+
+  if (bar) bar.style.width = '100%';
+  const span = prog?.querySelector('span');
+  if (span) span.textContent = fail ? `${ok} subido(s), ${fail} error(es)` : '¡Listo!';
+  setTimeout(() => {
+    if (prog) prog.classList.remove('show');
+    if (bar) bar.style.width = '0%';
+  }, 1500);
+
+  input.value = '';
+  if (ok > 0) toast(`${ok} archivo(s) subido(s) correctamente.`, 'success');
+  await renderGallery(pid, cid);
 };
 
 /* ══════════════════════════════
@@ -2382,10 +2571,9 @@ function renderProfTags() {
   cont.innerHTML = selectedProfIds.map(id => {
     const p = profesionales.find(x=>x.id===id);
     if (!p) return '';
-    const label = `${p.apellido}, ${p.nombres}${p.especialidad?' · '+p.especialidad:''}`;
-    return `<span class="prof-tag" title="${label}">
-      <span class="prof-tag-txt">${label}</span>
-      <button onclick="toggleProfSel('${id}',false);const cb=document.querySelector('#pmi-${id} input');if(cb){cb.checked=false;}" title="Quitar">
+    return `<span class="prof-tag">
+      ${p.apellido}, ${p.nombres}${p.especialidad?' · '+p.especialidad:''}
+      <button onclick="toggleProfSel('${id}',false);document.getElementById('pmi-${id}')?.querySelector('input')?.click()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </span>`;
