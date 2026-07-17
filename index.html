@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>AtHome Enfermeria sa</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root {
   --bg:#0c1017;--surface:#141b24;--surface2:#1a2332;--border:#263041;
@@ -491,6 +492,108 @@ body.is-admin .admin-only-block{display:block!important;}
     border-top:1px solid #e2e8f0;
     background:#f8fafc;
   }
+  /* Credencial */
+.credencial-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 10mm;
+}
+.credencial-card {
+  width: 86mm;
+  height: 54mm;
+  background: #ffffff;
+  border-radius: 4mm;
+  border: 1px solid #dde3ec;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  padding: 4mm 5mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Inter', system-ui, sans-serif;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.credencial-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 3mm;
+}
+.credencial-org {
+  font-size: 9pt;
+  font-weight: 700;
+  color: #0c1017;
+  letter-spacing: -0.3px;
+}
+.credencial-org-sub {
+  font-size: 5.5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #556070;
+}
+.credencial-body {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 3mm 0;
+  flex: 1;
+}
+.credencial-foto {
+  width: 20mm;
+  height: 20mm;
+  border-radius: 3mm;
+  background: linear-gradient(135deg, #3b7ef6, #06cdf4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16pt;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.credencial-datos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 7.5pt;
+  color: #1a2332;
+}
+.credencial-nombre {
+  font-weight: 700;
+  font-size: 10pt;
+  color: #0c1017;
+}
+.credencial-dni {
+  font-weight: 500;
+  color: #3b7ef6;
+}
+.credencial-patologia {
+  background: #f0f4f8;
+  padding: 1px 4px;
+  border-radius: 2px;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 6.5pt;
+  color: #1a2332;
+  margin-top: 1px;
+}
+.credencial-medico, .credencial-telefono, .credencial-contacto {
+  font-size: 6.5pt;
+  color: #4a5e72;
+}
+.credencial-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2mm;
+  margin-top: 2px;
+}
 }
 
 /* INFORME MODAL (period picker) */
@@ -897,6 +1000,10 @@ body.is-admin .admin-only-block{display:block!important;}
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Imprimir ficha
         </button>
+        <button class="btn btn-ghost btn-sm" id="btn-det-credencial" style="background:rgba(139,92,246,.1);color:#a78bfa;border-color:rgba(139,92,246,.25);">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M12 13v1"/><line x1="8" y1="16" x2="16" y2="16"/></svg>
+  Credencial
+</button>
         <button class="btn btn-ghost btn-sm" id="btn-det-rpt" style="background:rgba(16,185,129,.1);color:var(--success);border-color:rgba(16,185,129,.25)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Informe por período
@@ -2066,6 +2173,7 @@ window.openDet=async function(id){
   document.getElementById('det-sub').textContent=`DNI: ${p.dni||'—'}${p.ciudad?' · '+p.ciudad:''}`;
   document.getElementById('btn-det-edit').onclick=()=>{window.closeDet();window.openForm(id);};
   document.getElementById('btn-det-print').onclick=()=>window.printPaciente(id);
+  document.getElementById('btn-det-credencial').onclick = () => window.printCredencial(id);
   document.getElementById('btn-det-rpt').onclick=()=>{ window.closeDet(); window.openRptModal(id); };
   document.getElementById('btn-det-entrada').onclick=()=>{ window.closeDet(); window.openEntrada(id); };
 
@@ -2555,6 +2663,42 @@ window.showView=function(name,el){
 };
 window.openSb=()=>{ document.getElementById('sidebar').classList.add('open'); document.getElementById('sb-overlay').classList.add('show'); };
 window.closeSb=()=>{ document.getElementById('sidebar').classList.remove('open'); document.getElementById('sb-overlay').classList.remove('show'); };
+
+window.printCredencial = function(id) {
+  const p = pacientes.find(x => x.id === id);
+  if (!p) { toast('Paciente no encontrado', 'error'); return; }
+
+  const inits = ((p.apellido || '')[0] || '').toUpperCase() + ((p.nombres || '')[0] || '').toUpperCase();
+
+  const html = `
+    <div class="credencial-wrapper">
+      <div class="credencial-card">
+        <div class="credencial-header">
+          <img src="path6.png" alt="AtHome" height="32">
+          <div>
+            <div class="credencial-org">AtHome Enfermería</div>
+            <div class="credencial-org-sub">Enfermería en casa!</div>
+          </div>
+        </div>
+        <div class="credencial-body">
+          <div class="credencial-foto">${inits}</div>
+          <div class="credencial-datos">
+            <div class="credencial-nombre">${p.apellido}, ${p.nombres}</div>
+            <div class="credencial-dni">DNI: ${p.dni || '—'}</div>
+            ${p.patologia ? `<div class="credencial-patologia">${p.patologia}</div>` : ''}
+            ${p.medico_tratante ? `<div class="credencial-medico">Médico: ${p.medico_tratante}</div>` : ''}
+            ${p.telefonos ? `<div class="credencial-telefono">📞 ${p.telefonos}</div>` : ''}
+            ${p.contacto_familia ? `<div class="credencial-contacto">👤 ${p.contacto_familia}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('print-report').innerHTML = html;
+  // Imprimir directamente
+  window.print();
+};
 
 /* ══════════════════════════════
    TOAST
