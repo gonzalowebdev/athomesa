@@ -539,7 +539,7 @@ body.is-admin .admin-only-block{display:block!important;}
   display: flex;
   gap: 8px;
   align-items: center;
-  padding: 3mm 0;
+  padding: 4mm;
   flex: 1;
 }
 .credencial-foto {
@@ -562,6 +562,7 @@ body.is-admin .admin-only-block{display:block!important;}
   gap: 1px;
   font-size: 7.5pt;
   color: #1a2332;
+  padding-left: 4mm;
 }
 .credencial-nombre {
   font-weight: 700;
@@ -2668,8 +2669,7 @@ window.printCredencial = function(id) {
   const p = pacientes.find(x => x.id === id);
   if (!p) { toast('Paciente no encontrado', 'error'); return; }
 
-  const inits = ((p.apellido || '')[0] || '').toUpperCase() + ((p.nombres || '')[0] || '').toUpperCase();
-
+  // HTML de la credencial con QR y solo nombre + DNI
   const html = `
     <div class="credencial-wrapper">
       <div class="credencial-card">
@@ -2681,14 +2681,11 @@ window.printCredencial = function(id) {
           </div>
         </div>
         <div class="credencial-body">
-          <div class="credencial-foto">${inits}</div>
+          <!-- Contenedor para el QR -->
+          <div id="qr-${id}" style="width:20mm;height:20mm;flex-shrink:0;background:#fff;border-radius:3mm;display:flex;align-items:center;justify-content:center;"></div>
           <div class="credencial-datos">
             <div class="credencial-nombre">${p.apellido}, ${p.nombres}</div>
             <div class="credencial-dni">DNI: ${p.dni || '—'}</div>
-            ${p.patologia ? `<div class="credencial-patologia">${p.patologia}</div>` : ''}
-            ${p.medico_tratante ? `<div class="credencial-medico">Médico: ${p.medico_tratante}</div>` : ''}
-            ${p.telefonos ? `<div class="credencial-telefono">📞 ${p.telefonos}</div>` : ''}
-            ${p.contacto_familia ? `<div class="credencial-contacto">👤 ${p.contacto_familia}</div>` : ''}
           </div>
         </div>
       </div>
@@ -2696,8 +2693,23 @@ window.printCredencial = function(id) {
   `;
 
   document.getElementById('print-report').innerHTML = html;
-  // Imprimir directamente
-  window.print();
+
+  // Generar el QR dentro del contenedor
+  setTimeout(() => {
+    const qrContainer = document.getElementById(`qr-${id}`);
+    if (qrContainer) {
+      new QRCode(qrContainer, {
+        text: `Paciente ID: ${id}`,
+        width: 100,   // tamaño en píxeles (alta resolución para impresión)
+        height: 100,
+        colorDark: '#0c1017',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+    // Esperar un poco para que el QR se renderice y luego imprimir
+    setTimeout(() => window.print(), 400);
+  }, 100);
 };
 
 /* ══════════════════════════════
