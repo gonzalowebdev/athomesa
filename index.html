@@ -247,6 +247,16 @@ tbody tr:hover td{background:rgba(255,255,255,.018);}
 .td-m{font-family:monospace;font-size:12px;color:var(--text-muted);}
 .td-s{font-size:11px;color:var(--text-muted);}
 .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:500;}
+.status-badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:600;white-space:nowrap;}
+.status-badge.active{background:rgba(16,185,129,.13);color:var(--success);}
+.status-badge.inactive{background:rgba(239,68,68,.13);color:var(--danger);}
+.pac-switch{position:relative;display:inline-block;width:34px;height:19px;flex-shrink:0;cursor:pointer;}
+.pac-switch input{opacity:0;width:0;height:0;position:absolute;}
+.pac-switch .slider{position:absolute;inset:0;background:var(--border);border-radius:20px;transition:background var(--ease);cursor:pointer;}
+.pac-switch .slider:before{content:'';position:absolute;height:13px;width:13px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform var(--ease);}
+.pac-switch input:checked+.slider{background:var(--success);}
+.pac-switch input:checked+.slider:before{transform:translateX(15px);}
+.pac-switch input:disabled+.slider{opacity:.5;cursor:not-allowed;}
 .tag-blue{background:rgba(59,126,246,.15);color:#60a5fa;}
 .tag-green{background:rgba(16,185,129,.15);color:#34d399;}
 .tag-amber{background:rgba(245,158,11,.15);color:#fbbf24;}
@@ -851,7 +861,7 @@ body.is-admin .admin-only-block{display:block!important;}
             <button class="chip" onclick="setChip('estudios',this)">Con Estudios</button>
           </div>
           <div id="result-banner"></div>
-          <div class="tbl-wrap"><table><thead><tr><th>Paciente</th><th>DNI</th><th>Teléfono</th><th>Patología</th><th>Médico</th><th>Ciudad</th><th>Acciones</th></tr></thead><tbody id="main-tbody"><tr class="loading-row"><td colspan="7">Cargando…</td></tr></tbody></table></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Paciente</th><th>DNI</th><th>Teléfono</th><th>Patología</th><th>Médico</th><th>Ciudad</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="main-tbody"><tr class="loading-row"><td colspan="8">Cargando…</td></tr></tbody></table></div>
           <div class="pagination"><div class="pg-info" id="pg-info">—</div><div class="pg-btns" id="pg-btns"></div></div>
         </div>
       </div>
@@ -1913,6 +1923,27 @@ const ICO_DOC=`<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
 const ICO_FLASK=`<path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v11m0 0H5a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2h-4"/>`;
 function emptyRow(cols,ico,title,text){ return `<tr><td colspan="${cols}"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">${ico}</svg><div class="empty-title">${title}</div><div class="empty-text">${text}</div></div></td></tr>`; }
 function patientCell(p){ return `<td><div style="display:flex;align-items:center;gap:10px;"><div style="width:30px;height:30px;border-radius:7px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:11px;font-weight:600;color:#fff;">${initials(p)}</div><div><div class="td-p">${hl(p.apellido)}, ${hl(p.nombres)}</div><div class="td-s">${p.mail||''}</div></div></div></td>`; }
+function statusCell(p){
+  const active = p.activo !== false;
+  return `<td><div style="display:flex;align-items:center;gap:8px;">
+    <label class="pac-switch" title="${active?'Deshabilitar paciente':'Habilitar paciente'}">
+      <input type="checkbox" ${active?'checked':''} onchange="toggleActivo('${p.id}', this.checked, this)">
+      <span class="slider"></span>
+    </label>
+    <span class="status-badge ${active?'active':'inactive'}" id="status-badge-${p.id}">${active?'Activo':'Inactivo'}</span>
+  </div></td>`;
+}
+window.toggleActivo = async function(id, checked, inputEl){
+  inputEl.disabled = true;
+  const { error } = await sb.from(TABLE).update({ activo: checked }).eq('id', id);
+  inputEl.disabled = false;
+  if (error) { toast(`Error: ${error.message}`,'error'); inputEl.checked = !checked; return; }
+  const p = pacientes.find(x=>x.id===id);
+  if (p) p.activo = checked;
+  const badge = document.getElementById(`status-badge-${id}`);
+  if (badge) { badge.textContent = checked?'Activo':'Inactivo'; badge.className = `status-badge ${checked?'active':'inactive'}`; }
+  toast(checked?'Paciente habilitado.':'Paciente deshabilitado.','success');
+};
 function actionsCell(id){ return `<td><div class="act-row">
   <button class="ic-btn ic-btn-blue"  onclick="openDet('${id}')"          title="Ver ficha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">${ICO_EYE}</svg></button>
   <button class="ic-btn" style="background:rgba(139,92,246,.12);color:#a78bfa;" onclick="openEntrada('${id}')" title="Nueva entrada del día"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
@@ -1931,8 +1962,8 @@ function renderMain(){
   const banner=document.getElementById('result-banner');
   banner.innerHTML=searchQuery&&total>0?`<div class="result-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>${total} resultado${total!==1?'s':''} para "<strong>${searchQuery}</strong>" — búsqueda en todos los campos</div>`:'';
   const tb=document.getElementById('main-tbody');
-  if(!slice.length){tb.innerHTML=emptyRow(7,ICO_USERS,searchQuery?'Sin resultados':'Sin pacientes',searchQuery?`No hay coincidencias para "${searchQuery}"`:'Registrá el primer paciente');}
-  else{tb.innerHTML=slice.map(p=>`<tr>${patientCell(p)}<td><span class="td-m">${hl(p.dni)||'—'}</span></td><td>${p.telefonos?hl(p.telefonos):'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.patologia?`<span class="tag ${tagC(p.id)}">${hl(p.patologia)}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.medico_tratante?hl(p.medico_tratante):'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.ciudad?hl(p.ciudad):'<span style="color:var(--text-muted)">—</span>'}</td>${actionsCell(p.id)}</tr>`).join('');}
+  if(!slice.length){tb.innerHTML=emptyRow(8,ICO_USERS,searchQuery?'Sin resultados':'Sin pacientes',searchQuery?`No hay coincidencias para "${searchQuery}"`:'Registrá el primer paciente');}
+  else{tb.innerHTML=slice.map(p=>`<tr>${patientCell(p)}<td><span class="td-m">${hl(p.dni)||'—'}</span></td><td>${p.telefonos?hl(p.telefonos):'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.patologia?`<span class="tag ${tagC(p.id)}">${hl(p.patologia)}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.medico_tratante?hl(p.medico_tratante):'<span style="color:var(--text-muted)">—</span>'}</td><td>${p.ciudad?hl(p.ciudad):'<span style="color:var(--text-muted)">—</span>'}</td>${statusCell(p)}${actionsCell(p.id)}</tr>`).join('');}
   renderPagination(pages,total);
 }
 function renderPagination(pages,total){

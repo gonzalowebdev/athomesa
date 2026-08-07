@@ -684,6 +684,16 @@ body{overflow-y:auto;overflow-x:hidden;}
 .det-avatar-lg{width:56px;height:56px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:19px;font-weight:700;color:#fff;}
 .det-header-name{font-family:var(--ui);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
 .det-header-sub{font-size:13px;color:var(--text-muted);margin-top:3px;}
+.status-badge{display:inline-block;padding:3px 11px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap;}
+.status-badge.active{background:rgba(16,185,129,.13);color:var(--success);}
+.status-badge.inactive{background:rgba(239,68,68,.13);color:var(--danger);}
+.pac-switch{position:relative;display:inline-block;width:38px;height:21px;flex-shrink:0;cursor:pointer;}
+.pac-switch input{opacity:0;width:0;height:0;position:absolute;}
+.pac-switch .slider{position:absolute;inset:0;background:var(--border);border-radius:20px;transition:background var(--ease);cursor:pointer;}
+.pac-switch .slider:before{content:'';position:absolute;height:15px;width:15px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform var(--ease);}
+.pac-switch input:checked+.slider{background:var(--success);}
+.pac-switch input:checked+.slider:before{transform:translateX(17px);}
+.pac-switch input:disabled+.slider{opacity:.5;cursor:not-allowed;}
 .det-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;}
 #loading-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;flex-direction:column;gap:14px;}
 #loading-screen .spin{display:block;width:28px;height:28px;border:3px solid rgba(59,126,246,.25);border-top-color:var(--accent);}
@@ -755,6 +765,13 @@ body{overflow-y:auto;overflow-x:hidden;}
       <div>
         <div class="det-header-name" id="det-name">—</div>
         <div class="det-header-sub" id="det-sub">—</div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+        <span class="status-badge" id="pac-status-badge">—</span>
+        <label class="pac-switch" title="Habilitar / deshabilitar paciente">
+          <input type="checkbox" id="pac-status-input" onchange="toggleActivo(this.checked, this)">
+          <span class="slider"></span>
+        </label>
       </div>
     </div>
     <div class="det-card">
@@ -1034,6 +1051,11 @@ async function renderPacienteDetail() {
   document.getElementById('pac-page-title').textContent = `${p.apellido}, ${p.nombres}`;
   document.title = `${p.apellido}, ${p.nombres} · AtHome Enfermería`;
 
+  const active = p.activo !== false;
+  document.getElementById('pac-status-badge').textContent = active ? 'Activo' : 'Inactivo';
+  document.getElementById('pac-status-badge').className = `status-badge ${active ? 'active' : 'inactive'}`;
+  document.getElementById('pac-status-input').checked = active;
+
   document.getElementById('btn-det-edit').onclick   = () => window.openForm(p.id);
   document.getElementById('btn-det-print').onclick  = () => window.printPaciente(p.id);
   document.getElementById('btn-det-credencial').onclick = () => window.printCredencial(p.id);
@@ -1139,6 +1161,19 @@ async function renderPacienteDetail() {
   await renderGallery(p.id,galleryId);
   await renderControlesList(p.id,ctrlListId);
 }
+
+window.toggleActivo = async function(checked, inputEl) {
+  if (!paciente) return;
+  inputEl.disabled = true;
+  const { error } = await sb.from(TABLE).update({ activo: checked }).eq('id', paciente.id);
+  inputEl.disabled = false;
+  if (error) { toast(`Error: ${error.message}`, 'error'); inputEl.checked = !checked; return; }
+  paciente.activo = checked;
+  const badge = document.getElementById('pac-status-badge');
+  badge.textContent = checked ? 'Activo' : 'Inactivo';
+  badge.className = `status-badge ${checked ? 'active' : 'inactive'}`;
+  toast(checked ? 'Paciente habilitado.' : 'Paciente deshabilitado.', 'success');
+};
 
 window.switchTab=function(name,el){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('.tab-pane').forEach(t=>t.classList.remove('active')); el.classList.add('active'); document.getElementById('tab-'+name).classList.add('active'); };
 
