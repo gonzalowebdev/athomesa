@@ -942,6 +942,7 @@ body.is-admin .admin-only-block{display:block!important;}
           <div class="f"><label>Ciudad</label><input id="f-ciudad" placeholder="Buenos Aires" type="text"></div>
           <div class="f"><label>Contacto Familia</label><input id="f-contacto_familia" placeholder="Nombre y teléfono" type="text"></div>
           <div class="f"><label>Médico Tratante (texto libre)</label><input id="f-medico_tratante" placeholder="Dr. Apellido" type="text"></div>
+          <div class="f"><label>Fecha de Ingreso</label><input id="f-fecha_ingreso" type="date"></div>
         </div>
         <!-- Profesionales registrados -->
         <div class="f" style="margin-top:12px;">
@@ -1273,7 +1274,7 @@ let isAdmin      = false;
 /* ── Columnas DB pacientes ── */
 const DB_COLS = [
   'apellido','nombres','dni','telefonos','mail',
-  'domicilio','ciudad','contacto_familia','medico_tratante',
+  'domicilio','ciudad','contacto_familia','medico_tratante','fecha_ingreso',
   'patologia','patologia1','patologia2','diagnostico_medico',
   'historia_clinica','epicrisis','estudios_complementarios',
   'observaciones','enfermeria','kinesiologia',
@@ -1290,7 +1291,7 @@ const CTRL_COLS = [
 const DB_LABELS = {
   apellido:'Apellido',nombres:'Nombres',dni:'DNI',telefonos:'Teléfonos',
   mail:'Mail',domicilio:'Domicilio',ciudad:'Ciudad',
-  contacto_familia:'Contacto Familia',medico_tratante:'Médico Tratante',
+  contacto_familia:'Contacto Familia',medico_tratante:'Médico Tratante',fecha_ingreso:'Fecha de Ingreso',
   patologia:'Patología',patologia1:'Patología 1',patologia2:'Patología 2',
   diagnostico_medico:'Diagnóstico Médico',historia_clinica:'Historia Clínica',
   epicrisis:'Epicrisis',estudios_complementarios:'Estudios',

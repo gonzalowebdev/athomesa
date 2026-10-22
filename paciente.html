@@ -803,6 +803,7 @@ body{overflow-y:auto;overflow-x:hidden;}
           <div class="f"><label>Ciudad</label><input id="f-ciudad" placeholder="Buenos Aires" type="text"></div>
           <div class="f"><label>Contacto Familia</label><input id="f-contacto_familia" placeholder="Nombre y teléfono" type="text"></div>
           <div class="f"><label>Médico Tratante (texto libre)</label><input id="f-medico_tratante" placeholder="Dr. Apellido" type="text"></div>
+          <div class="f"><label>Fecha de Ingreso</label><input id="f-fecha_ingreso" type="date"></div>
         </div>
         <div class="f" style="margin-top:12px;">
           <label>Profesionales asignados</label>
@@ -993,7 +994,7 @@ let selectedProfIds = [];
 
 const DB_COLS = [
   'apellido','nombres','dni','telefonos','mail',
-  'domicilio','ciudad','contacto_familia','medico_tratante',
+  'domicilio','ciudad','contacto_familia','medico_tratante','fecha_ingreso',
   'patologia','patologia1','patologia2','diagnostico_medico',
   'historia_clinica','epicrisis','estudios_complementarios',
   'observaciones','enfermeria','kinesiologia',
@@ -1093,6 +1094,7 @@ async function renderPacienteDetail() {
         <div class="info-item"><div class="info-lbl">Ciudad</div><div class="info-val">${f(p.ciudad)}</div></div>
         <div class="info-item"><div class="info-lbl">Contacto Familia</div><div class="info-val">${f(p.contacto_familia)}</div></div>
         <div class="info-item"><div class="info-lbl">Médico Tratante</div><div class="info-val">${f(p.medico_tratante)}</div></div>
+        <div class="info-item"><div class="info-lbl">Fecha de Ingreso</div><div class="info-val">${f(p.fecha_ingreso ? new Date(p.fecha_ingreso+'T00:00:00').toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'}) : '')}</div></div>
         <div class="info-item"><div class="info-lbl">Patología</div><div class="info-val">${f(p.patologia)}</div></div>
         <div class="info-item"><div class="info-lbl">Pat. 1 / 2</div><div class="info-val">${[p.patologia1,p.patologia2].filter(Boolean).join(' · ')||'—'}</div></div>
       </div>
